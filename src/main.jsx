@@ -8,6 +8,7 @@ import CreateReportPage from './pages/CreateReportPage/CreateReportPage.jsx';
 import MyReportPage from './pages/MyReportsPage/MyReportPage.jsx';
 import MyTemplatePage from './pages/MyTemplatePage/MyTemplatePage.jsx';
 import ProfilePage from './pages/ProfilePage/ProfilePage.jsx';
+import FaqPage from './pages/FaqPage/FaqPage.jsx';
 
 const routes = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const routes = createBrowserRouter([
   {
     path: '/profile',
     element: <ProfilePage />
+  },
+  {
+    path: '/faq',
+    element: <FaqPage />
   }
   
 ]);
