@@ -1,7 +1,7 @@
 .myReportComponent{
     display: flex;
     justify-content: space-between;
-    background-color: #fff;
+    background-color: #fcfcfc;
     border-radius: 15px;
     border: 1px solid #CCCCCC;
     padding: 27px 36px;
@@ -23,6 +23,10 @@
 }
 
 .myReportComponent__btn{
+    position: relative;
+}
+
+.btn{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -31,8 +35,29 @@
     height: 24px;
     border-radius: 5px;
     cursor: pointer;
+    position: relative;
 }
 
-.myReportComponent__btn:hover{
+.btn:hover{
     background-color: #d1d1d1;
+}
+
+.btn__menu{
+    position: absolute;
+    bottom: -150px;
+    left: 0px;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background-color: #FFFFFF;
+    border-radius: 15px;
+    padding: 20px;
+}
+
+.btnMenu__item{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
 }

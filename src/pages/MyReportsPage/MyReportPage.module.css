@@ -28,3 +28,12 @@
 .reports > *:not(:last-child){
     margin-bottom: 20px;
 }
+
+.content__filters{
+    display: flex;
+    gap: 52px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 32px 64px;
+    border-radius: 15px;
+    margin-bottom: 36px;
+}
