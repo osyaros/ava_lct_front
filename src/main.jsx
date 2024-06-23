@@ -7,6 +7,7 @@ import LoginPage from './pages/Login/LoginPage.jsx';
 import CreateReportPage from './pages/CreateReportPage/CreateReportPage.jsx';
 import MyReportPage from './pages/MyReportsPage/MyReportPage.jsx';
 import MyTemplatePage from './pages/MyTemplatePage/MyTemplatePage.jsx';
+import ProfilePage from './pages/ProfilePage/ProfilePage.jsx';
 
 const routes = createBrowserRouter([
   {
@@ -22,8 +23,12 @@ const routes = createBrowserRouter([
     element: <MyReportPage />
   },
   {
-    path: '/mytemplates',
+    path: '/templates',
     element: <MyTemplatePage />
+  },
+  {
+    path: '/profile',
+    element: <ProfilePage />
   }
   
 ]);

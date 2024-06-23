@@ -1,9 +1,9 @@
 @import '../../assets/global.scss';
 
 .myTemplatePage{
-    padding: 0 250px 0 250px;
-    margin-top: 73px;
-    margin-bottom: 150px;
+    padding: 73px 250px 150px 250px;
+    height: 100vh;
+    background-color: #f9f9f9;
 }
 
 .myTemplatePage > *:not(:last-child){
