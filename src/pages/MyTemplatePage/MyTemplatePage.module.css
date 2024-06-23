@@ -1,0 +1,28 @@
+@import '../../assets/global.scss';
+
+.myTemplatePage{
+    padding: 0 250px 0 250px;
+    margin-top: 73px;
+    margin-bottom: 150px;
+}
+
+.myTemplatePage > *:not(:last-child){
+    margin-bottom: 52px;
+}
+
+.myTemplatePage__content{
+    width: inherit;
+}
+
+.myTemplatePage__title{
+    font-weight: 600;
+    font-size: 28px;
+}
+
+.contentTemplate_search{
+    margin-bottom: 36px;
+}
+
+.templates > *:not(:last-child){
+    margin-bottom: 20px;
+}
