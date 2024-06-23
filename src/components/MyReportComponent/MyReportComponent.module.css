@@ -1,0 +1,38 @@
+.myReportComponent{
+    display: flex;
+    justify-content: space-between;
+    background-color: #fff;
+    border-radius: 15px;
+    border: 1px solid #CCCCCC;
+    padding: 27px 36px;
+    align-items: center;
+}
+
+.myReportComponent__info > *:not(:last-child){
+    margin-bottom: 4px;
+}
+
+.info__title{
+    font-size: 22px;
+    font-weight: bold;
+    color: #000;
+}
+
+.info__date{
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.myReportComponent__btn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #F7F7F7;
+    width: 24px;
+    height: 24px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.myReportComponent__btn:hover{
+    background-color: #d1d1d1;
+}

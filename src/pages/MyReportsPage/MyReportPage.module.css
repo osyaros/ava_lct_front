@@ -1,0 +1,30 @@
+@import '../../assets/global.scss';
+
+.myReportPage{
+    padding: 0 250px 0 250px;
+    margin-top: 73px;
+    margin-bottom: 150px;
+}
+
+.myReportPage > *:not(:last-child){
+    margin-bottom: 52px;
+}
+
+.myReportPage__content{
+    width: inherit;
+}
+
+.myReportPage__title{
+    font-weight: 600;
+    font-size: 28px;
+}
+
+.content_search{
+    display: flex;
+    gap: 20px;
+    margin-bottom: 36px;
+}
+
+.reports > *:not(:last-child){
+    margin-bottom: 20px;
+}
