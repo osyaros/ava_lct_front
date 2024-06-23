@@ -1,0 +1,51 @@
+@import '../../assets/global.scss';
+.header{
+    background-color: #FFFFFF;
+    height: 100px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content:start;
+    align-items: center;
+    padding-left: 150px;
+    padding-right: 150px;
+    gap:7.52vw;
+    .logo{
+        h2{
+            font-size: 32px;
+            font-family: Azbuka;
+            font-weight: 400;
+        }
+        
+    }
+    nav{
+
+        display: flex;
+        flex-direction: row;
+        color: $black;
+        ul{
+            display: flex;
+            flex-direction: row;
+            gap:4.17vw;
+            a{
+                display: block;
+                height: auto;
+                color: $black;
+                font-size: 16px;
+                font-style: normal;
+                font-weight: 500;
+            }
+        }
+       
+    }
+    .profile{
+        position: absolute;
+        right: 150px;
+        height: 46px;
+        width: 46px;
+       img{
+        width: 100%;
+        height: 100%;
+       }
+    }
+}

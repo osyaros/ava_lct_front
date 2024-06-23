@@ -1,0 +1,86 @@
+@import '../../assets/global.scss';
+main{
+    background-color: #FFFFFF;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .content{
+        margin-top: 100px;
+        max-width: 500px;
+        background-color: #FFFFFF;
+        border-radius: 22px;
+       
+        .head{
+            font-size: 64px;
+            font-family: Azbuka;
+            font-weight: 500;
+            text-align: center;
+            margin-bottom:114px;
+        }
+    }
+    .mainform{
+        display: flex;
+        flex-direction: column;
+        .typeform{
+            font-size: 36px;
+            color:$black;
+
+        }
+        .form_place{
+            font-size: 16px;
+            color: $black;
+            font-weight: 400    ;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            gap:20px;
+            margin-top: 36px;
+            .form_field{
+                height: 80px;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                gap:8px;
+                input{
+                    width: 500px;
+                    height: 52px;
+                    padding-left: 20px;
+                    flex-shrink: 0;
+                    border-radius: 15px;
+                    border: 1px solid rgba(0, 0, 0, 0.20);
+                   
+                }
+            }
+            
+        }
+        .btn{
+            background-color: $yellow;
+            padding: 16px 163px;
+            text-align: center;
+            font-weight: 700;
+            border-radius: 15px;
+            margin-top: 32px;
+        }
+        .descr{
+            display: flex;
+            flex-direction: column;
+            gap:32px;
+            .per_consent{
+                margin-top: 20px;
+                width: 500px;
+    
+                color: #CCC;
+                font-family: Steppe;
+                font-size: 16px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: normal;
+               
+            }
+        }
+        
+    }
+    
+}
+    
