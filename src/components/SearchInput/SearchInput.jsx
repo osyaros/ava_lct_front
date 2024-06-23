@@ -6,11 +6,7 @@ function SearchInput({placeholder}) {
   return (
     <div className={cl.searchInput}>
         <input type="text" placeholder={placeholder} className={cl.searchInput__input}/>
-        {
-          isSearch && (
-            <img src={search} alt="search" className={cl.searchInput__image}/>
-          )
-        }
+        <img src={search} alt="search" className={cl.searchInput__image}/>
     </div>
   )
 }

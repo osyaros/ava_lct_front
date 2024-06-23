@@ -1,0 +1,26 @@
+.faqPage{
+    padding: 73px 250px 150px 250px;
+    height: 100%;
+    background-color: #f9f9f9;
+}
+
+.faqPage > *:not(:last-child){
+    margin-bottom: 52px;
+}
+
+.content_search{
+    margin-bottom: 36px;
+}
+
+.faqPage__title{
+    font-weight: 600;
+    font-size: 28px;
+}
+
+.content_faqs > *{
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.content_faqs > *:last-child{
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}

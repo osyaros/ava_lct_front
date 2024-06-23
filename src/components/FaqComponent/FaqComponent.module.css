@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+.faqComponent{
+    position: relative;
+    width: 100%;
+}
+
+.faqComponent__content{
+    padding: 20px 0;
+    color: #222222;
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.content_header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header_title{
+    font-size: 20px;
+    margin-bottom: 16px;
+}
+
+.content_description{
+    font-size: 16px;
+}
