@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
 import Header from '../../components/Header/Header';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import DragCard from '../../components/DragCard/DragCard';
+import DropZone from '../../components/DropZone/DropZone';
 import cls from './styles.module.scss';
 
 import aDD from '../../assets/images/add.svg'
 import dEL from '../../assets/images/close.svg'
+
 const CreateReportPage = () => {
   const [selectedRadio, setSelectedRadio] = useState('');
+  const [selectedModel, setSelectedModel] = useState('');
   const [textInput, setTextInput] = useState('');
   const [finalSelection, setFinalSelection] = useState('');
   const [inputFields, setInputFields] = useState(['']); 
@@ -16,6 +22,11 @@ const CreateReportPage = () => {
     setSelectedRadio(value);
     setTextInput('');
     setFinalSelection(e.target.alt);
+  };
+  const handleModelRadio = (e) => {
+    const value = e.target.value;
+    setSelectedModel(e.target.alt);
+    
   };
 
   const handleTextInputChange = (e) => {
@@ -144,8 +155,8 @@ const CreateReportPage = () => {
                   Временные рамки
                 </span>
                 <div className={cls.dates}>
-                  <input className={cls.datefrom} placeholder='От' onChange={(e)=>setDateFrom(e.target.value)}/>
-                  <input className={cls.dateto} placeholder='До' onChange={(e)=>setDateTo(e.target.value)}/>
+                  <input className={cls.date} placeholder='От' onChange={(e)=>setDateFrom(e.target.value)}/>
+                  <input className={cls.date} placeholder='До' onChange={(e)=>setDateTo(e.target.value)}/>
                 </div>
                
               </div>
@@ -155,6 +166,41 @@ const CreateReportPage = () => {
                 <span>
                   LLM модель
                 </span>
+                <div className={cls.models}>
+                  <div className={cls.radio_input}>
+                    <input
+                      type="radio"
+                      name="foo"
+                      value="saiga"
+                      checked={selectedModel=== 'saiga'}
+                      onChange={handleModelRadio}
+                      alt='saiga'
+                    />
+                    <label>Saiga</label>
+                  </div>
+                  <div className={cls.radio_input}>
+                    <input
+                      type="radio"
+                      name="foo"
+                      value="yagpt_neuro"
+                      checked={selectedModel === 'yagpt_neuro'}
+                      onChange={handleModelRadio}
+                      alt='yagpt_neuro'
+                    />
+                    <label>YaGPT_Neuro</label>
+                  </div>
+                  <div className={cls.radio_input}>
+                    <input
+                      type="radio"
+                      name="foo"
+                      value="yagpt"
+                      checked={selectedModel === 'yagpt'}
+                      onChange={handleModelRadio}
+                      alt='yagpt'
+                    />
+                    <label>YaGPT</label>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -163,6 +209,28 @@ const CreateReportPage = () => {
               <span>Выбранная тематика: {finalSelection}</span>
             </div>
           )}
+        </div>
+        <div className={cls.content}>
+          <div className={cls.searchbar}>
+            <input className={cls.searchfield} placeholder='Напишите ваш запрос'/>
+            <button className={cls.btn_savetemp}>Сохранить шаблон</button>
+            <button className={cls.btn_generate}>Сгенерировать</button>
+          </div>
+          <DndProvider backend={HTML5Backend}>
+            <div className={cls.dragcontent}>
+              <div className={cls.dragbar}>
+              
+                <DragCard text={"Столбчатая диаграмма"} imgname={"chart_vertical"} />
+                <DragCard text={"Линейная диаграмма"} imgname={"chart_line"} />
+                <DragCard text={"Круговая диаграмма"} imgname={"chart_pie"} />
+                <DragCard text={"Текстовый блок"} imgname={"text_block"} />
+                <DragCard text={"Таблица"} imgname={"table"} />
+              </div>
+              <div className={cls.dragfield}>
+                <DropZone/>
+              </div>
+            </div>
+          </DndProvider>
         </div>
       </div>
     </>

@@ -1,0 +1,78 @@
+.dropzone{
+    min-height: 700px;
+    background-color: #FFFFFF;
+    position: relative;
+    border-radius: 15px;
+    .drop{
+        background-color: rgba(0, 0, 0, 0.2); 
+        position: absolute; 
+        top: 0;
+        left: 0;
+        height: 100%; 
+        width: 100%;
+    }
+}
+.chartblock{
+    padding-top: 50px;
+    padding-left: 50px;
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid #6A6A6A;
+    .chart_title{
+        width: 159px;
+        height: 38px;
+        border-radius: 8px;
+        border: 1px solid rgba(0, 0, 0, 0.10);
+        background:  #FFF;
+        padding-left: 10px;
+    }
+    .params{
+        display: flex;
+        flex-direction: column;
+        gap:20px;
+        .title{
+            font-size: 20px;
+            font-style: normal;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .param{
+            display: flex;
+            flex-direction: column;
+            gap:10px;
+            .param_name{
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                img{
+                    width: 24px;
+                    height: 24px;
+                }
+                
+            }
+            .param_i{
+                width: 90%;
+                height: 52px;
+                border-radius: 8px;
+                border: 1px solid rgba(0, 0, 0, 0.10);
+                background:  #FFF;
+                padding-left: 10px;
+            }
+            
+        }
+    }
+    .noteadd{
+        margin-top: 36px;
+        display: flex;
+        flex-direction: column;
+        .note{
+            width: 90%;
+            height: 152px;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 0, 0, 0.10);
+            background:  #FFF;
+            padding-left: 10px;
+            margin-bottom: 10px;
+        }
+    }
+}
