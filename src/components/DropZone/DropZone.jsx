@@ -25,6 +25,17 @@ const data = [
   { name: 'July', value: 40 },
 ];
 
+const jsonData = [
+  {"data": [{"ПИК": 68.7}, {"ПИК": 101.2}, {"ПИК": 175.1}, {"ПИК": 245.8}, {"ПИК": 280.6}, {"ПИК": 380.2}, {"СДЭК": 34.3}], "link": "https://ru.wikipedia.org/"},
+  {"data": [], "link": "https://tass.ru/"},
+  {"data": [{"Category1": 65}, {"Category2": 71.7}], "link": "https://www.rbc.ru/"},
+  {"data": [{"2021": 273.9}, {"2022": 366.2}], "link": "https://www.kommersant.ru/"},
+  {"data": [{"Category1": 44.2}, {"Category2": 63.4}, {"Category3": 33.6}], "link": "https://www.interfax.ru/"},
+  {"data": [{"Год": 2021, "Выручка": 0}, {"Год": 2022, "Выручка": 0}], "link": "https://www.tadviser.ru/"},
+  {"data": [{"2021": 273.9}, {"IVквартал2020": 53.1}, {"Iквартал2021": 56.8}], "link": "https://www.cnews.ru/"},
+  {"data": [{"Выручка": 5.7}, {"Выручка": 11.2}], "link": "https://www.comnews.ru/"}
+];
+
 const Chart = ({ chart, updateChart}) => {
   const handleParamChange = (e, param) => {
     const value = e.target.value;
@@ -85,7 +96,9 @@ const Chart = ({ chart, updateChart}) => {
             <input placeholder='Заголовок' className={cls.chart_title} onChange={(e) => handleParamChange(e, 'title')}/>
             <BarChart key={chart.id}
             xAxis={[{ scaleType: 'band', data: ['group A', 'group B', 'group C'] }]}
-            series={[{ data: [4, 3, 5] }, { data: [1, 6, 3] }, { data: [2, 5, 6] }]}
+            series={[
+              { data: jsonData.map(item => item.data && item.data.length > 0 ? Object.values(item.data[0])[0] : 0) }
+            ]}
             width={500}
             height={300}
             />
