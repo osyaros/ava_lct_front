@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import cl from './MyReportPage.module.css'
 import Header from '../../components/Header/Header'
 import SearchInput from '../../components/SearchInput/SearchInput'
@@ -6,16 +6,12 @@ import YellowBtn from '../../UI/YellowBtn/YellowBtn'
 import MyReportComponent from '../../components/MyReportComponent/MyReportComponent'
 import WhiteBtn from '../../UI/WhiteBtn/WhiteBtn'
 import FilterComponent from '../../components/FilterComponent/FilterComponent'
+import { formatDistanceToNow, parseISO } from 'date-fns';
+import { ru } from 'date-fns/locale';
+import SendServer from '../../api/Service'
 
 function MyReportPage() {
-    const [reports] = useState([
-        {title: 'Анализ нефтегазового рынка', date: '1 день назад'},
-        {title: 'Анализ финансового рынка', date: '3 дня назад'},
-        {title: 'Анализ рынка ценных бумаг', date: '8 дней назад'},
-        {title: 'Анализ рынка труда', date: '23 дня назад'},
-        {title: 'Сравнение Apple и Samsung', date: '24 дня назад'},
-        {title: 'Анализ конкурентов Северстали', date: '2 месяца назад'},
-    ])
+    const [reports, setReports] = useState([]);
 
     const [isFilters, setIsFilters] = useState(false);
     const [filters, setFilters] = useState([
@@ -51,6 +47,15 @@ function MyReportPage() {
     
     const [selectedFilters, setSelectedFilters] = useState(initializeSelectedFilters());
 
+    const getAllReports = async () => {
+        try{
+            const responseReports = await SendServer.getAllReports();
+            setReports(responseReports);
+        } catch (error){
+            console.error(error);
+        }
+    }
+
     const closeFilters = () => {
         setIsFilters(false);
     }
@@ -72,6 +77,14 @@ function MyReportPage() {
             };
         });
     };
+
+    const formatDate = (isoString) => {
+        return formatDistanceToNow(parseISO(isoString), { addSuffix: true, locale: ru});
+    };
+
+    useEffect(() => {
+        getAllReports();
+    }, [])
 
   return (
     <>
@@ -113,7 +126,7 @@ function MyReportPage() {
                         <div className={cl.reports}>
                             {
                                 reports.map((report, index) => (
-                                    <MyReportComponent key={index} title={report.title} date={report.date}/>
+                                    <MyReportComponent key={index} title={report.name} date={formatDate(report.create_date)}/>
                                 ))
                             }
                         </div>
