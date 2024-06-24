@@ -109,31 +109,29 @@ const CreateReportPage = () => {
     }
     handleCloseTempModal();
   };
-  const handleGenerate= async() => {
-      console.log(reportID);
-      const token = localStorage.getItem('jwt_authorization');
-      if (!token) {
-        setError('Токен не найден');
-        return;
-      }
+  const handleGenerate = async () => {
+    console.log(reportID);
+    const token = localStorage.getItem('jwt_authorization');
+    if (!token) {
+      setError('Токен не найден');
+      return;
+    }
     try {
       const response = await axios.get(
         `${baseUrl}/general/report/${reportID}/generate`,
         {
-          
-          headers:{
+          headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
-            
           },
         }
       );
       console.log(response);
-      setDataCharts(response?.data?.blocks)
-    }catch(error){
-      setError(error.response?.data?.message || error.message)
+      setDataCharts(response?.data?.blocks);
+    } catch (error) {
+      setError(error.response?.data?.message || error.message);
     }
-  }
+  };
 
   const addInputField = () => {
     setLinks([...links, '']);
@@ -316,7 +314,7 @@ const CreateReportPage = () => {
                 <DragCard text={"Таблица"} imgname={"grid"} />
               </div>
               <div className={cls.dragfield}>
-                <DropZone updateChartParams={handleUpdateChartParams}/>
+                <DropZone updateChartParams={handleUpdateChartParams} dataCharts={dataCharts}/>
               </div>
             </div>
           </DndProvider>

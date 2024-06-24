@@ -25,60 +25,62 @@ const data = [
   { name: 'July', value: 40 },
 ];
 
-const Chart = ({ chart, updateChart}) => {
+const Chart = ({ chart, updateChart, data}) => {
+  const curveChartData = data.find(block => block.block_type === 'curve_chart');
+  const barChartData = data.find(block => block.block_type === 'bar_chart');
+  const pieChartData = data.find(block => block.block_type === 'pie_chart');
   const handleParamChange = (e, param) => {
     const value = e.target.value;
     updateChart(chart.id, { [param]: value });
   };
   switch (chart.block_type) {
     case 'curve_chart':
-      return (
-        <div className={cls.chartblock}>
-          <input placeholder='Заголовок' className={cls.chart_title}  onChange={(e) => handleParamChange(e, 'title')}/>
-          <LineChart key={chart.id}
-            xAxis={[{ data: [1, 2, 3, 5, 8, 10] }]}
-            series={[
-              {  curve: "linear",
-                data: [2, 5.5, 2, 8.5, 1.5, 5],
-                color: 'rgba(183, 75, 14, 0.6)',
-                area: true,
-          
-              },
-            ]}
-            width={500}
-            height={300}
-          />
-          <div className={cls.params}>
+        return (
+          <div className={cls.chartblock}>
+            <input placeholder='Заголовок' className={cls.chart_title} onChange={(e) => handleParamChange(e, 'title')} />
+            <LineChart
+              key={chart.id}
+              xAxis={[{ data: curveChartData }]}
+              series={[
+                {
+                  curve: "linear",
+                  data: [2, 5.5, 2, 8.5, 1.5, 5],
+                  color: 'rgba(183, 75, 14, 0.6)',
+                  area: true,
+                },
+              ]}
+              width={500}
+              height={300}
+            />
+            <div className={cls.params}>
               <span className={cls.title}>Параметры</span>
               <div className={cls.param}>
                 <div className={cls.param_name}>
-                  <img src={arrow_r} /><span>X</span>
+                  <img src={arrow_r} alt="Arrow Right" /><span>X</span>
                 </div>
-                <input placeholder='Название оси' className={cls.param_i} onChange={(e) => handleParamChange(e, 'axis_x')}/>
+                <input placeholder='Название оси' className={cls.param_i} onChange={(e) => handleParamChange(e, 'axis_x')} />
                 <div className={cls.param_checkbox}>
-                  <input type='checkbox'/>
+                  <input type='checkbox' />
                   <label>Автоматически</label>
                 </div>
               </div>
               <div className={cls.param}>
                 <div className={cls.param_name}>
-                  <img src={arrow_up} /><span>Y</span>
+                  <img src={arrow_up} alt="Arrow Up" /><span>Y</span>
                 </div>
-                <input placeholder='Название оси' className={cls.param_i} onChange={(e) => handleParamChange(e, 'axis_y')}/>
+                <input placeholder='Название оси' className={cls.param_i} onChange={(e) => handleParamChange(e, 'axis_y')} />
                 <div className={cls.param_checkbox}>
-                  <input type='checkbox'/>
+                  <input type='checkbox' />
                   <label>Автоматически</label>
                 </div>
               </div>
             </div>
             <div className={cls.noteadd}>
               <span>Примечание</span>
-              <input className={cls.note} placeholder='Введите ваши дополнения к запросу'/>
+              <input className={cls.note} placeholder='Введите ваши дополнения к запросу' />
             </div>
-            
-        </div>
-        
-      );
+          </div>
+        );
     case 'bar_chart':
       return (
         <div className={cls.chartblock}>
@@ -128,11 +130,7 @@ const Chart = ({ chart, updateChart}) => {
               {
                 arcLabel: (item) => `${item.label} (${item.value})`,
                 arcLabelMinAngle: 45,
-                data: [
-                { value: 5, label: 'A' },
-                { value: 10, label: 'B' },
-                { value: 15, label: 'C' },
-                { value: 20, label: 'D' },]
+                data: pieChartData
               },
             ]}
             sx={{
@@ -179,7 +177,7 @@ const Chart = ({ chart, updateChart}) => {
   }
 };
 
-const DropZone = ({updateChartParams}) => {
+const DropZone = ({updateChartParams, dataCharts}) => {
   const [droppedCharts, setDroppedCharts] = useState([]);
 
   const [{ isOver }, drop] = useDrop(() => ({
@@ -217,7 +215,7 @@ const DropZone = ({updateChartParams}) => {
           <div onClick={() => handleRemoveChart(chart.id)} style={{ position: 'absolute', top: 45, right: 10, cursor: 'pointer' }}>
             <img src={trash} alt="Delete" />
           </div>
-          <Chart chart={chart} updateChart={updateChart} />
+          <Chart chart={chart} data={dataCharts} updateChart={updateChart} />
         </div>
       ))}
     </div>
