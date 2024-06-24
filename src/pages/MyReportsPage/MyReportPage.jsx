@@ -198,7 +198,13 @@ function MyReportPage() {
                         <div className={cl.reports}>
                             {
                                 filteredData.map((report, index) => (
-                                    <MyReportComponent key={index} title={report.name} date={formatDate(report.create_date)}/>
+                                    <MyReportComponent 
+                                        key={index} 
+                                        id={report.id}
+                                        title={report.name} 
+                                        date={formatDate(report.create_date)}
+                                        type="report"
+                                    />
                                 ))
                             }
                         </div>

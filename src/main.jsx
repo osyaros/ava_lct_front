@@ -34,6 +34,14 @@ const routes = createBrowserRouter([
   {
     path: '/faq',
     element: <FaqPage />
+  },
+  {
+    path: '/report/:id',
+    element: <PrivateRoute><CreateReportPage /></PrivateRoute>
+  },
+  {
+    path: '/template/:id',
+    element: <PrivateRoute><CreateReportPage /></PrivateRoute>
   }
   
 ]);

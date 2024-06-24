@@ -6,7 +6,13 @@
     border: 1px solid #CCCCCC;
     padding: 27px 36px;
     align-items: center;
+    cursor: pointer;
 }
+
+.myReportComponent:hover{
+    background-color: #ececec;
+}
+
 
 .myReportComponent__info > *:not(:last-child){
     margin-bottom: 4px;

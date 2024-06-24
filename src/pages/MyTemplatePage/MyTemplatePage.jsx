@@ -43,12 +43,18 @@ function MyTemplatePage() {
                 </div>
                 <div className={cl.content_templates}>
                     {
-                        filteredTemplates 
+                        filteredTemplates && filteredTemplates.length > 0
                         ?
                         <div className={cl.templates}>
                             {
                                 filteredTemplates.map((template) => (
-                                    <MyReportComponent key={template.id} title={template.name} date={formatDate(template.create_date)}/>
+                                    <MyReportComponent 
+                                        key={template.id} 
+                                        id={template.id} 
+                                        title={template.name}
+                                        date={formatDate(template.create_date)}
+                                        type="template"
+                                    />
                                 ))
                             }
                         </div>
