@@ -1,54 +1,147 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import Header from '../../components/Header/Header';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import DragCard from '../../components/DragCard/DragCard';
 import DropZone from '../../components/DropZone/DropZone';
+import Footer from '../../components/Footer/Footer'
+import baseUrl from '../../../config.js'
+
+import axios from 'axios';
+
 import cls from './styles.module.scss';
 
 import aDD from '../../assets/images/add.svg'
 import dEL from '../../assets/images/close.svg'
 
+
 const CreateReportPage = () => {
   const [selectedRadio, setSelectedRadio] = useState('');
   const [selectedModel, setSelectedModel] = useState('');
   const [textInput, setTextInput] = useState('');
-  const [finalSelection, setFinalSelection] = useState('');
-  const [inputFields, setInputFields] = useState(['']); 
-  const [dateto,setDateTo] = useState('');
-  const [datefrom,setDateFrom] = useState('');
+  const [theme, setTheme] = useState('');
+  const [fulltheme,setMaintheme] = useState('');
+  const [links, setLinks] = useState([]); 
+  const [dateto, setDateTo] = useState('');
+  const [datefrom, setDateFrom] = useState('');
+  const [settings, setSetting] = useState({})
+  const [chartParams, setChartParams] = useState([]);
+  const [result, setResult] = useState();
+  const [error, setError] = useState('');
+  const [openModal, setOpen] = useState(false);
+  const [tempName,setTempname] = useState('');
+  const [reportID,setReportID] = useState('');
+  const [dataCharts, setData]=useState('');
   const handleRadioChange = (e) => {
     const value = e.target.value;
     setSelectedRadio(value);
     setTextInput('');
-    setFinalSelection(e.target.alt);
+    setTheme(e.target.alt);
   };
   const handleModelRadio = (e) => {
-    const value = e.target.value;
+    
     setSelectedModel(e.target.alt);
     
   };
+  
 
   const handleTextInputChange = (e) => {
     const value = e.target.value;
     setTextInput(value);
     setSelectedRadio('');
-    setFinalSelection(value);
+    setTheme(value);
   };
 
   const handleInputFieldChange = (index, event) => {
-    const values = [...inputFields];
+    const values = [...links];
     values[index] = event.target.value;
-    setInputFields(values);
+    setLinks(values);
   };
+  const handleUpdateChartParams = (updatedParams) => {
+    setChartParams(updatedParams);
+  };
+  const handleOpenTempModal = ()=> {
+    setOpen(true);
+  }
+  const handleCloseTempModal= ()=> {
+    setOpen(false);
+  }
+  const handleSaveTemp= async() => {
+    const date =new Date();
+    const now = date.toISOString()
+    console.log(now);
+    setSetting({
+      "theme": theme,
+      "full_theme": fulltheme+"T07:52:33.090Z",
+      "start_date": datefrom+"T07:52:33.090Z",
+      "end_date": dateto,
+      "llm_model": selectedModel}
+      );
+      console.log(settings);
+      const token = localStorage.getItem('jwt_authorization');
+      if (!token) {
+        setError('Токен не найден');
+        return;
+      }
+    try {
+      const response = await axios.post(
+        `${baseUrl}/general/report`,
+        {
+        name:tempName,
+        report_type: "template",
+        create_date: now,
+        blocks:chartParams,
+        links:links,
+        report_settings: settings},{
+          
+          headers:{
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+            
+          },
+        }
+      );
+      setResult(response)
+      setReportID(response?.data?.id)
+      console.log(reportID)
+    }catch(error){
+      setError(error.response?.data?.message || error.message)
+    }
+    handleCloseTempModal();
+  };
+  const handleGenerate= async() => {
+      console.log(reportID);
+      const token = localStorage.getItem('jwt_authorization');
+      if (!token) {
+        setError('Токен не найден');
+        return;
+      }
+    try {
+      const response = await axios.get(
+        `${baseUrl}/general/report/${reportID}/generate`,
+        {
+          
+          headers:{
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+            
+          },
+        }
+      );
+      console.log(response);
+      setDataCharts(response?.data?.blocks)
+    }catch(error){
+      setError(error.response?.data?.message || error.message)
+    }
+  }
 
   const addInputField = () => {
-    setInputFields([...inputFields, '']);
+    setLinks([...links, '']);
   };
   const removeInputField = (index) => {
-    const values = [...inputFields];
+    const values = [...links];
     values.splice(index, 1);
-    setInputFields(values);
+    setLinks(values);
   };
   return (
     <>
@@ -135,7 +228,7 @@ const CreateReportPage = () => {
                 </span>
               </div>
               <div className={cls.inputFields}>
-              {inputFields.map((input, index) => (
+              {links.map((input, index) => (
                 <div key={index} className={cls.inputFieldWrapper}>
                 <input
                   type="text"
@@ -204,35 +297,46 @@ const CreateReportPage = () => {
               </div>
             </div>
           </div>
-          {finalSelection && (
-            <div className={cls.finalSelection}>
-              <span>Выбранная тематика: {finalSelection}</span>
-            </div>
-          )}
+          
         </div>
         <div className={cls.content}>
           <div className={cls.searchbar}>
-            <input className={cls.searchfield} placeholder='Напишите ваш запрос'/>
-            <button className={cls.btn_savetemp}>Сохранить шаблон</button>
-            <button className={cls.btn_generate}>Сгенерировать</button>
+            <input className={cls.searchfield} placeholder='Напишите ваш запрос' onChange={(e)=>setMaintheme(e.target.value)}/>
+            <button className={cls.btn_savetemp}onClick={()=>handleOpenTempModal()} >Сохранить шаблон</button>
+            <button className={cls.btn_generate} onClick={()=>{handleGenerate()}}>Сгенерировать</button>
           </div>
           <DndProvider backend={HTML5Backend}>
             <div className={cls.dragcontent}>
               <div className={cls.dragbar}>
               
-                <DragCard text={"Столбчатая диаграмма"} imgname={"chart_vertical"} />
-                <DragCard text={"Линейная диаграмма"} imgname={"chart_line"} />
-                <DragCard text={"Круговая диаграмма"} imgname={"chart_pie"} />
-                <DragCard text={"Текстовый блок"} imgname={"text_block"} />
-                <DragCard text={"Таблица"} imgname={"table"} />
+                <DragCard text={"Столбчатая диаграмма"} imgname={"bar_chart"} />
+                <DragCard text={"Линейная диаграмма"} imgname={"curve_chart"} />
+                <DragCard text={"Круговая диаграмма"} imgname={"pie_chart"} />
+                <DragCard text={"Текстовый блок"} imgname={"text"} />
+                <DragCard text={"Таблица"} imgname={"grid"} />
               </div>
               <div className={cls.dragfield}>
-                <DropZone/>
+                <DropZone updateChartParams={handleUpdateChartParams}/>
               </div>
             </div>
           </DndProvider>
         </div>
+      {openModal && (
+        <div className={cls.modal}>
+          <div className={cls.modalcontent}>
+            <span className={cls.modtit}>Сохранение шаблона</span>
+            <input className={cls.modi}placeholder='Название шаблона' onChange={(e)=>setTempname(e.target.value)}/>
+            <div style={{display:"flex", flexDirection:"row",justifyContent:"space-between"}}>
+              <button className={cls.otmena} onClick={()=>handleCloseTempModal()}>Отмена</button>
+              <button className={cls.save} onClick={()=>handleSaveTemp()}>Сохранить</button>
+            </div>
+            
+          </div>
+         
+        </div>
+      )}
       </div>
+      <Footer/>
     </>
   );
 };
