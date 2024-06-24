@@ -3,6 +3,7 @@ import cl from './FaqPage.module.css'
 import Header from '../../components/Header/Header'
 import SearchInput from '../../components/SearchInput/SearchInput'
 import FaqComponent from '../../components/FaqComponent/FaqComponent'
+import Footer from '../../components/Footer/Footer'
 
 function FaqPage() {
     const [faqs] = useState([
