@@ -1,0 +1,14 @@
+.footer{
+    height: 100px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+}
+
+.footer__title{
+    font-size: 17px;
+    font-weight: 600;
+    color: rgba(0, 0, 0, 0.1);
+}

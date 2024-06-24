@@ -1,0 +1,26 @@
+.myTemplatePage{
+    padding: 73px 250px 150px 250px;
+    height: 100vh;
+    background-color: #f9f9f9;
+}
+
+.myTemplatePage > *:not(:last-child){
+    margin-bottom: 52px;
+}
+
+.myTemplatePage__content{
+    width: inherit;
+}
+
+.myTemplatePage__title{
+    font-weight: 600;
+    font-size: 28px;
+}
+
+.contentTemplate_search{
+    margin-bottom: 36px;
+}
+
+.templates > *:not(:last-child){
+    margin-bottom: 20px;
+}
