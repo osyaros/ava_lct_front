@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import cl from './ProfileField.module.css'
 
-function ProfileField({title, text, onChange}) {
+function ProfileField({title, text, onChange, onInputChange, type}) {
   const inputRef = useRef(null);
   const [isEdit, setIsEdit] = useState(false);
   const [inputValue, setInputValue] = useState(text);
@@ -14,7 +14,9 @@ function ProfileField({title, text, onChange}) {
   };
 
   const handleInputChange = (e) => {
-    setInputValue(e.target.value);
+    const value = e.target.value;
+    setInputValue(value);
+    onInputChange(value);
   };
 
   useEffect(() => {
@@ -28,7 +30,7 @@ function ProfileField({title, text, onChange}) {
         </div>
         <input 
           ref={inputRef} 
-          type="text" 
+          type={type ? type : 'text'} 
           value={inputValue}
           placeholder={text}
           onChange={handleInputChange} 

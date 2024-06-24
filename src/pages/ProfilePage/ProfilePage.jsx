@@ -11,26 +11,40 @@ import Footer from '../../components/Footer/Footer'
 
 function ProfilePage() {
     const [user, setUser] = useState(
-        {name: "Иван", login: 'ivan1998', password: "123456789"}
+        {first_name: "", last_name: "", login: "", password: ""}
     )
 
     const [fieldsChanged, setFieldsChanged] = useState({
-      name: false,
+      first_name: false,
+      last_name: false,
       login: false,
       password: false,
     });
 
     const handleFieldChange = (field, changed) => {
-      setFieldsChanged((prevFields) => ({
-        ...prevFields,
-        [field]: changed,
-      }));
+        setFieldsChanged((prevFields) => ({
+            ...prevFields,
+            [field]: changed,
+        }));
+    };
+
+    const handleInputChange = (field, value) => {
+        setUser((prevUser) => ({
+            ...prevUser,
+            [field]: value,
+        }));
     };
 
     const getUserInfo = async () => {
         const responseUser = await SendServer.getUser();
-        console.log(responseUser);
+        setUser(responseUser);
     }
+
+    const updateUserInfo = async (first_name, last_name, login, password) => {
+        const response = await SendServer.updateUser(first_name, last_name, login, password);
+        console.log(response);
+    }
+
 
     useEffect(() => {
         getUserInfo();
@@ -62,11 +76,26 @@ function ProfilePage() {
                         </div>
                     </div>
                     <div className={cl.profile_fields}>
-                        <ProfileField title="Имя" text={user.name} onChange={(changed) => handleFieldChange('name', changed)}/>
-                        <ProfileField title="Логин" text={user.login} onChange={(changed) => handleFieldChange('login', changed)}/>
-                        <ProfileField title="Пароль" text={user.password} onChange={(changed) => handleFieldChange('password', changed)}/>
+                        <ProfileField 
+                            title="Имя" 
+                            text={user.first_name ? user.first_name : ''} 
+                            onChange={(changed) => handleFieldChange('first_name', changed)}
+                            onInputChange={(value) => handleInputChange('first_name', value)}
+                        />
+                        <ProfileField 
+                            title="Фамилия" 
+                            text={user.last_name ? user.last_name : ''} 
+                            onChange={(changed) => handleFieldChange('last_name', changed)}
+                            onInputChange={(value) => handleInputChange('last_name', value)}
+                        />
+                        <ProfileField 
+                            title="Логин" 
+                            text={user.login ? user.login : ''} 
+                            onChange={(changed) => handleFieldChange('login', changed)}
+                            onInputChange={(value) => handleInputChange('login', value)}
+                        />
                         {
-                            isChanged && <YellowBtn width="100%">Подтвердить</YellowBtn>
+                            isChanged && <YellowBtn width="100%" onClick={() => updateUserInfo(user.first_name, user.last_name, user.login, user.password)}>Подтвердить</YellowBtn>
                         }
                     </div>
                 </div>

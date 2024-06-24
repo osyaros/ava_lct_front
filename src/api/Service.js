@@ -38,5 +38,23 @@ export default class SendServer{
                 .then(response => response.data)
                 .catch(error => console.error(error));
     }
+
+    //* Функция изменения юзера
+    static async updateUser(first_name, last_name, login, password){
+        const token = localStorage.getItem('jwt_authorization');
+        return await axios.patch(baseUrl + '/users/me', {
+            'first_name': first_name,
+            'last_name': last_name,
+            'login': login,
+            'password': password,
+        }, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": 'application/json'
+            }
+        })
+                .then(response => response.data)
+                .catch(error => console.error(error))
+    }
 }
 
