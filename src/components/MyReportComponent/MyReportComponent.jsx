@@ -14,7 +14,7 @@ function MyReportComponent({id, title, date, type}) {
   }
 
   return (
-    <div className={cl.myReportComponent} onClick={() => showReport()}>
+    <div className={cl.myReportComponent} onClick={showReport}>
         <div className={cl.myReportComponent__info}>
             <div className={cl.info__title}>{title}</div>
             <div className={cl.info__date}>{date}</div>
