@@ -47,10 +47,10 @@ const Chart = ({ chart, updateChart}) => {
         <div className={cls.chartblock}>
           <input placeholder='Заголовок' className={cls.chart_title}  onChange={(e) => handleParamChange(e, 'title')}/>
           <LineChart key={chart.id}
-            xAxis={[{ data: [1, 2, 3, 5, 8, 10] }]}
+            xAxis={[{ data: jsonData.map(item => item.data && item.data.length > 0 ? Object.values(item.data[0])[0] : 0) }]}
             series={[
               {  curve: "linear",
-                data: [2, 5.5, 2, 8.5, 1.5, 5],
+                data: jsonData.map(item => item.data && item.data.length > 0 ? Object.values(item.data[0])[0] : 0),
                 color: 'rgba(183, 75, 14, 0.6)',
                 area: true,
           
@@ -95,7 +95,7 @@ const Chart = ({ chart, updateChart}) => {
         <div className={cls.chartblock}>
             <input placeholder='Заголовок' className={cls.chart_title} onChange={(e) => handleParamChange(e, 'title')}/>
             <BarChart key={chart.id}
-            xAxis={[{ scaleType: 'band', data: ['group A', 'group B', 'group C'] }]}
+            xAxis={[{ scaleType: 'band', data: jsonData.map(item => item.data && item.data.length > 0 ? Object.values(item.data[0])[0] : 0) }]}
             series={[
               { data: jsonData.map(item => item.data && item.data.length > 0 ? Object.values(item.data[0])[0] : 0) }
             ]}
