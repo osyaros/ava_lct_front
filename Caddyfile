@@ -1,0 +1,14 @@
+{$DOMAIN} {
+  encode gzip
+  handle /api/* {
+    reverse_proxy api:8000
+  }
+  handle {
+    root * /app/dist
+    try_files {path} /index.html
+    file_server
+  }
+  handle_errors {
+    respond "{err.status_code} {err.status_text}"
+  }
+}
