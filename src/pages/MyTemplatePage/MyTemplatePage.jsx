@@ -53,7 +53,7 @@ function MyTemplatePage() {
                             }
                         </div>
                         :
-                        <div>Нет документов</div>
+                        <div>Нет шаблонов</div>
                     }
                 
                 </div>

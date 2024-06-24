@@ -193,7 +193,7 @@ function MyReportPage() {
                 
                 <div className={cl.content_reports}>
                     {
-                        filteredData.length > 0
+                        filteredData && filteredData.length > 0
                         ?
                         <div className={cl.reports}>
                             {
@@ -203,7 +203,7 @@ function MyReportPage() {
                             }
                         </div>
                         :
-                        <div>Нет документов</div>
+                        <div>Нет отчетов</div>
                     }
                 
                 </div>
