@@ -5,6 +5,8 @@ import exit from '../../assets/images/exit.svg'
 import ProfileField from '../../components/ProfileField/ProfileField'
 import YellowBtn from '../../UI/YellowBtn/YellowBtn'
 import profile from '../../assets/images/profile.svg'
+import { Link } from 'react-router-dom';
+
 function ProfilePage() {
     const [fieldsChanged, setFieldsChanged] = useState({
       name: false,
@@ -27,10 +29,12 @@ function ProfilePage() {
         <div className={cl.profilePage}>
             <div className={cl.profilePage__header}>
                 <div className={cl.header_title}>Мой профиль</div>
-                <div className={cl.header_exit}>
-                    <img src={exit} alt="exit" />
-                    Выйти
-                </div>
+                <Link to="/login">
+                    <div className={cl.header_exit}>
+                        <img src={exit} alt="exit" />
+                        Выйти
+                    </div>
+                </Link>
             </div>
             <div className={cl.profilePage__content}>
                 <div className={cl.content__profile}>

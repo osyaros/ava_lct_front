@@ -15,6 +15,7 @@ export default class SendServer{
                 .catch(error => console.log(error));
     } 
 
+    //* Функция для получения всех отчетов
     static async getAllReports() {
         const token = localStorage.getItem('jwt_authorization');
         return await axios.get(baseUrl + '/general/doc', {

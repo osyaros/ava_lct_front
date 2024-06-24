@@ -5,11 +5,11 @@ import MyReportComponent from '../../components/MyReportComponent/MyReportCompon
 import cl from './MyTemplatePage.module.css'
 import SendServer from '../../api/Service'
 import { formatDistanceToNow, parseISO } from 'date-fns';
-import { ru } from 'date-fns/locale';
+import { ru, se, te } from 'date-fns/locale';
 
 function MyTemplatePage() {
     const [templates, setTemplates] = useState()
-
+    const [searchQuery, setSearchQuery] = useState('');
     const getAllTemplates = async () => {
         try {
             const responseTemplates = await SendServer.getAllTemplates();
@@ -23,6 +23,10 @@ function MyTemplatePage() {
         return formatDistanceToNow(parseISO(isoString), { addSuffix: true, locale: ru});
     };
 
+    const filteredTemplates = searchQuery 
+    ? templates.filter(template => template.name.toLowerCase().includes(searchQuery.toLowerCase()))
+    : templates;
+
     useEffect(() => {
         getAllTemplates();
     }, [])
@@ -34,16 +38,16 @@ function MyTemplatePage() {
             <div className={cl.myTemplatePage__title}>Мои шаблоны</div>
             <div className={cl.myTemplatePage__content}>
                 <div className={cl.contentTemplate_search}>
-                    <SearchInput placeholder="Поиск"/>
+                    <SearchInput placeholder="Поиск" setSearchQuery={setSearchQuery} searchQuery={searchQuery}/>
                 </div>
                 <div className={cl.content_templates}>
                     {
-                        templates 
+                        filteredTemplates 
                         ?
                         <div className={cl.templates}>
                             {
-                                templates.map((report) => (
-                                    <MyReportComponent key={report.id} title={report.name} date={formatDate(report.create_date)}/>
+                                filteredTemplates.map((template) => (
+                                    <MyReportComponent key={template.id} title={template.name} date={formatDate(template.create_date)}/>
                                 ))
                             }
                         </div>

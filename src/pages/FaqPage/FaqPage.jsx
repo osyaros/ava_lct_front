@@ -35,9 +35,9 @@ function FaqPage() {
         <div className={cl.faqPage}>
             <div className={cl.faqPage__title}>F.A.Q</div>
             <div className={cl.faqPage__content}>
-                <div className={cl.content_search}>
+                {/* <div className={cl.content_search}>
                     <SearchInput placeholder="Поиск"/>
-                </div>
+                </div> */}
                 {
                     faqs && (
                         <div className={cl.content_faqs}>

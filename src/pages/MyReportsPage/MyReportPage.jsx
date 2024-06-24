@@ -7,14 +7,14 @@ import MyReportComponent from '../../components/MyReportComponent/MyReportCompon
 import WhiteBtn from '../../UI/WhiteBtn/WhiteBtn'
 import FilterComponent from '../../components/FilterComponent/FilterComponent'
 import { formatDistanceToNow, parseISO } from 'date-fns';
-import { ru } from 'date-fns/locale';
+import { ru, se } from 'date-fns/locale';
 import SendServer from '../../api/Service'
 
 function MyReportPage() {
     const [reports, setReports] = useState([]);
-
+    const [searchQuery, setSearchQuery] = useState('');
     const [isFilters, setIsFilters] = useState(false);
-    const [filters, setFilters] = useState([
+    const [filters] = useState([
         {title: 'Период', options: [
             {id: 0, text: 'Последний час'},
             {id: 1, text: 'Последние 12 часов'},
@@ -26,7 +26,7 @@ function MyReportPage() {
         ]},
         {title: 'LLM модель', options: [
             {id: 0, text: 'ChatGPT'},
-            {id: 1, text: 'ChatGPT'},
+            {id: 1, text: 'saiga'},
         ]},
         {title: 'Тематика отчета', options: [
             {id: 0, text: 'Рыночные анализы'},
@@ -82,9 +82,79 @@ function MyReportPage() {
         return formatDistanceToNow(parseISO(isoString), { addSuffix: true, locale: ru});
     };
 
+    const filteredReports = () => {
+        let filtered = reports;
+
+        //Фильтр по поисковому запросу
+        if(searchQuery) {
+            filtered = filtered.filter(report => report.name.toLowerCase().includes(searchQuery.toLowerCase()));
+        }
+
+        //Фильтр по LLM модели
+        filters.forEach(filter => {
+            const selectedOptions = selectedFilters[filter.title];
+            if(selectedOptions.length > 0 && filter.title === 'LLM модель'){
+                filtered = filtered.filter(report => selectedOptions.includes(report.report_settings.llm_model));
+            }
+        });        
+
+        // Фильтр по тематике
+        filters.forEach(filter => {
+            const selectedOptions = selectedFilters[filter.title];
+            if(selectedOptions.length > 0 && filter.title === 'Тематика отчета'){
+                filtered = filtered.filter(report => selectedOptions.includes(report.report_settings.theme));
+            }
+        })
+
+        //Фильтр по дате создания отчета
+        filters.forEach(filter => {
+            const selectedOptions = selectedFilters[filter.title];
+            if(selectedOptions.length > 0 && filter.title === 'Период'){
+                const currentDate = new Date();
+                let fromDate;
+
+                switch(selectedOptions[0]){
+                    case 'Последний час':
+                        fromDate = new Date(currentDate.getTime() - 60 * 60 * 1000);
+                        break;
+                    case 'Последние 12 часов':
+                        fromDate = new Date(currentDate.getTime() - 12 * 60 * 60 * 1000);
+                        break;
+                    case 'Последние сутки':
+                        fromDate = new Date(currentDate.getTime() - 24 * 60 * 60 * 1000);
+                        break;
+                    case 'Последние 3 дня':
+                        fromDate = new Date(currentDate.getTime() - 3 * 24 * 60 * 60 * 1000);
+                        break;
+                    case 'Последняя неделя':
+                        fromDate = new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000);
+                        break;
+                    case 'Последний месяц':
+                        fromDate = new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000);
+                        break;
+                    case 'Последний год':
+                        fromDate = new Date(currentDate.getTime() - 365 * 24 * 60 * 60 * 1000);
+                        break;
+                    default:
+                        fromDate = null;
+                };
+                if(fromDate){
+                    filtered = filtered.filter(report => {
+                        const reportDate = parseISO(report.create_date);
+                        return reportDate >= fromDate;
+                    });
+                }
+            }
+        })  
+
+        return filtered;
+    }
+
     useEffect(() => {
         getAllReports();
     }, [])
+
+    const filteredData = filteredReports();
 
   return (
     <>
@@ -93,7 +163,7 @@ function MyReportPage() {
             <div className={cl.myReportPage__title}>Мои отчеты</div>
             <div className={cl.myReportPage__content}>
                 <div className={cl.content_search}>
-                    <SearchInput placeholder="Поиск"/>
+                    <SearchInput placeholder="Поиск" setSearchQuery={setSearchQuery} searchQuery={searchQuery}/>
                     {
                         isFilters 
                         ?
@@ -108,6 +178,7 @@ function MyReportPage() {
                             {
                                 filters && filters.map((filter, index) => (
                                     <FilterComponent 
+                                        key={index}
                                         title={filter.title} 
                                         options={filter.options}
                                         selectedOptions={selectedFilters[filter.title]}
@@ -121,11 +192,11 @@ function MyReportPage() {
                 
                 <div className={cl.content_reports}>
                     {
-                        reports 
+                        filteredData.length > 0
                         ?
                         <div className={cl.reports}>
                             {
-                                reports.map((report, index) => (
+                                filteredData.map((report, index) => (
                                     <MyReportComponent key={index} title={report.name} date={formatDate(report.create_date)}/>
                                 ))
                             }
