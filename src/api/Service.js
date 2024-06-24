@@ -12,7 +12,7 @@ export default class SendServer{
             }
         })
                 .then(response => response.data)
-                .catch(error => console.log(error));
+                .catch(error => console.error(error));
     } 
 
     //* Функция для получения всех отчетов
@@ -24,7 +24,19 @@ export default class SendServer{
             }
         })
                 .then(response => response.data)
-                .catch(error => console.log(error));
+                .catch(error => console.error(error));
+    }
+
+    //* Функция для получения юзера
+    static async getUser() {
+        const token = localStorage.getItem('jwt_authorization');
+        return await axios.get(baseUrl + '/users/me', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+                .then(response => response.data)
+                .catch(error => console.error(error));
     }
 }
 

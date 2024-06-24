@@ -52,6 +52,7 @@ function FaqPage() {
                 
             </div>
         </div>
+        <Footer/>
     </>
   )
 }

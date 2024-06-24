@@ -6,6 +6,7 @@ import cl from './MyTemplatePage.module.css'
 import SendServer from '../../api/Service'
 import { formatDistanceToNow, parseISO } from 'date-fns';
 import { ru, se, te } from 'date-fns/locale';
+import Footer from '../../components/Footer/Footer'
 
 function MyTemplatePage() {
     const [templates, setTemplates] = useState()
@@ -58,6 +59,7 @@ function MyTemplatePage() {
                 </div>
             </div>
         </div>
+        <Footer/>
     </>
   )
 }

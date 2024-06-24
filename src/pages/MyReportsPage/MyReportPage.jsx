@@ -9,6 +9,7 @@ import FilterComponent from '../../components/FilterComponent/FilterComponent'
 import { formatDistanceToNow, parseISO } from 'date-fns';
 import { ru, se } from 'date-fns/locale';
 import SendServer from '../../api/Service'
+import Footer from '../../components/Footer/Footer'
 
 function MyReportPage() {
     const [reports, setReports] = useState([]);
@@ -208,6 +209,7 @@ function MyReportPage() {
                 </div>
             </div>
         </div>
+        <Footer/>
     </>
   )
 }

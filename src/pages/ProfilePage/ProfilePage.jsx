@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../../components/Header/Header'
 import cl from './ProfilePage.module.css'
 import exit from '../../assets/images/exit.svg'
@@ -6,8 +6,14 @@ import ProfileField from '../../components/ProfileField/ProfileField'
 import YellowBtn from '../../UI/YellowBtn/YellowBtn'
 import profile from '../../assets/images/profile.svg'
 import { Link } from 'react-router-dom';
+import SendServer from '../../api/Service'
+import Footer from '../../components/Footer/Footer'
 
 function ProfilePage() {
+    const [user, setUser] = useState(
+        {name: "Иван", login: 'ivan1998', password: "123456789"}
+    )
+
     const [fieldsChanged, setFieldsChanged] = useState({
       name: false,
       login: false,
@@ -20,6 +26,15 @@ function ProfilePage() {
         [field]: changed,
       }));
     };
+
+    const getUserInfo = async () => {
+        const responseUser = await SendServer.getUser();
+        console.log(responseUser);
+    }
+
+    useEffect(() => {
+        getUserInfo();
+    }, [])
 
     const isChanged = Object.values(fieldsChanged).some((changed) => changed);
  
@@ -47,9 +62,9 @@ function ProfilePage() {
                         </div>
                     </div>
                     <div className={cl.profile_fields}>
-                        <ProfileField title="Имя" text="Иван" onChange={(changed) => handleFieldChange('name', changed)}/>
-                        <ProfileField title="Логин" text="ivan1998" onChange={(changed) => handleFieldChange('login', changed)}/>
-                        <ProfileField title="Пароль" text="**********" onChange={(changed) => handleFieldChange('password', changed)}/>
+                        <ProfileField title="Имя" text={user.name} onChange={(changed) => handleFieldChange('name', changed)}/>
+                        <ProfileField title="Логин" text={user.login} onChange={(changed) => handleFieldChange('login', changed)}/>
+                        <ProfileField title="Пароль" text={user.password} onChange={(changed) => handleFieldChange('password', changed)}/>
                         {
                             isChanged && <YellowBtn width="100%">Подтвердить</YellowBtn>
                         }
@@ -57,6 +72,7 @@ function ProfilePage() {
                 </div>
             </div>
         </div>
+        <Footer />
     </>
   )
 }
