@@ -19,7 +19,7 @@ function ProfileField({title, text, onChange}) {
 
   useEffect(() => {
     onChange(inputValue !== text);
-  }, [inputValue, text, onChange])
+  }, [inputValue, text])
 
   return (
     <div className={cl.profileField}>

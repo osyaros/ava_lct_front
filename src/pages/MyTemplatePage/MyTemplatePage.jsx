@@ -1,18 +1,32 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../../components/Header/Header'
 import SearchInput from '../../components/SearchInput/SearchInput'
 import MyReportComponent from '../../components/MyReportComponent/MyReportComponent'
 import cl from './MyTemplatePage.module.css'
+import SendServer from '../../api/Service'
+import { formatDistanceToNow, parseISO } from 'date-fns';
+import { ru } from 'date-fns/locale';
 
 function MyTemplatePage() {
-    const [templates] = useState([
-        {title: 'Шаблон для анализа рынка труда', date: '1 день назад'},
-        {title: 'Шаблон 3', date: '3 дня назад'},
-        {title: 'Шаблон для анализа рынка ценных бумаг', date: '8 дней назад'},
-        {title: 'Шаблон 2', date: '23 дня назад'},
-        {title: 'Шаблон для анализа компаний', date: '24 дня назад'},
-        {title: 'Шаблон 1', date: '2 месяца назад'},
-    ])
+    const [templates, setTemplates] = useState()
+
+    const getAllTemplates = async () => {
+        try {
+            const responseTemplates = await SendServer.getAllTemplates();
+            setTemplates(responseTemplates);
+        } catch (error) {
+            console.error(error);
+        }       
+    }
+
+    const formatDate = (isoString) => {
+        return formatDistanceToNow(parseISO(isoString), { addSuffix: true, locale: ru});
+    };
+
+    useEffect(() => {
+        getAllTemplates();
+    }, [])
+
   return (
     <>
         <Header/>
@@ -28,8 +42,8 @@ function MyTemplatePage() {
                         ?
                         <div className={cl.templates}>
                             {
-                                templates.map((report, index) => (
-                                    <MyReportComponent key={index} title={report.title} date={report.date}/>
+                                templates.map((report) => (
+                                    <MyReportComponent key={report.id} title={report.name} date={formatDate(report.create_date)}/>
                                 ))
                             }
                         </div>
